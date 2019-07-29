@@ -57,7 +57,7 @@ files = c("data/mixture_1.csv",
           "data/mixture_2.csv")
 chains = read_chains(files, param_names = T, drop = 0, nth = 1)
 
-plot_diagnostics_sim(chains, actual_values_mix)
+plot_diagnostics_sim(chains %>% filter(Parameter != "sigma"), actual_values_mix)
 
 latex_table_sim(chains, actual_values_mix)
 
