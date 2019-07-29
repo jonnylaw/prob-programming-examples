@@ -72,4 +72,14 @@ class ForwardModeAd
       assert(f(Dual.pure(a)).gradient === analytic +- 0.1)
     }
   }
+
+  property("Derivative of log(log(x)) is 1 / xlog(x)") {
+    forAll(smallDouble) { (a: Double) =>
+      def f(x: Dual[Double]): Dual[Double] =
+        x.log.log
+
+      def analytic = 1 / (a * math.log(a))
+      assert(f(Dual.pure(a)).gradient === analytic +- 0.1)
+    }
+  }
 }

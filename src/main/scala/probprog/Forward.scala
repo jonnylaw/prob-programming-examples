@@ -26,7 +26,7 @@ case class Dual[A: Numeric](real: A, eps: Double) { self =>
     self.flatMap(x => Dual(math.exp(x), math.exp(x)))
 
   def log(implicit ev: A =:= Double) =
-    Dual(math.log(real), eps / real)
+    self.flatMap(x => Dual(math.log(real), 1 / real))
 
   def pow(a: A)(implicit ev: A =:= Double) =
     self.flatMap(x => Dual(math.pow(x, a), a * math.pow(x, a - 1)))

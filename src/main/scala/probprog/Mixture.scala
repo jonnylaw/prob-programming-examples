@@ -24,7 +24,7 @@ object SimulateMixtureModel extends App {
     } yield sample
   }
 
-  val p = Parameters(Vector(0.3, 0.2, 0.5), Vector(10, -20, 30), 0.5)
+  val p = Parameters(Vector(0.3, 0.2, 0.5), Vector(1, -2, 3), 0.5)
   val sims = mixture(p).repeat(10000).get
 
   val pw = new PrintWriter(new File("data/mixture_model.csv"))
@@ -33,7 +33,7 @@ object SimulateMixtureModel extends App {
 }
 
 object MixtureModel extends App {
-  implicit val rng = ScalaRNG(3)
+  implicit val rng = ScalaRNG(1)
 
   val sims: Vector[Double] = scala.io.Source
     .fromFile("data/mixture_model.csv")
@@ -49,10 +49,6 @@ object MixtureModel extends App {
   val model = for {
     unnormThetas <- RandomVariable.traverse(Vector.fill(3)(Gamma(3.0, 1.0).param))
     thetas = normalise(unnormThetas)
-    // mu <- Normal(0.0, 1.0).param
-    // mu1 <- Gamma(3.0, 1.0).param.map(mu + _)
-    // mu2 <- Gamma(3.0, 1.0).param.map(mu1 + _)
-    // mus = Seq(mu, mu1, mu2)
     mus <- RandomVariable.traverse(Vector.fill(3)(Normal(0, 1).param))
     sigma <- Exponential(3.0).param
     dists = mus.
