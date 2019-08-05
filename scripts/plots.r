@@ -27,17 +27,6 @@ chains = read_chains(files, param_names = T, drop = 0, nth = 1)
 plot_diagnostics_sim(chains, actual_values)
 ggsave("ehmc_lm.pdf")
 
-# Empirical distribution of Ls
-
-els = tibble(
-    l = 1:17,
-    count = c(177,544,544,7,29,57,104,32,62,98,91,43,58,75,42,30,7))
-
-ggplot(els, aes(x = l, weight = count)) +
-    geom_bar()
-
-ggsave("empirical_dist_lm.pdf")
-
 #################
 # Mixture Model #
 #################
